@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClipForge: turn long videos into short clips</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#14213d;--paper:#f7f8fb;--mint:#7ae0b8;--coral:#ff6b5b;--grey:#5b6475;--line:#dfe3ec}
+*{box-sizing:border-box;margin:0}
+body{font-family:'Bricolage Grotesque',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.55}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
+.logo{font-weight:800;font-size:1.3rem;text-decoration:none}
+.logo b{color:var(--coral)}
+nav a.btn{font-size:.95rem}
+.btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;text-decoration:none;font-weight:600;border:0;cursor:pointer;font:inherit;font-weight:600}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn.alt{background:var(--mint);color:var(--ink)}
+.btn:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.hero{padding:56px 0 40px;max-width:760px}
+h1{font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.04;font-weight:800;letter-spacing:-.02em}
+.hero p{font-size:1.2rem;color:var(--grey);margin:20px 0 28px;max-width:560px}
+.timeline{background:var(--ink);border-radius:20px;padding:22px;margin:16px 0 8px}
+.track{display:flex;gap:4px;height:54px}
+.track span{flex:1;background:#2a3a63;border-radius:6px}
+.track span.hit{background:var(--mint);animation:pulse 2.4s ease-in-out 1}
+.track span.hit.b{background:var(--coral)}
+.timeline small{display:block;color:#aeb8d4;margin-top:12px;font-size:.9rem}
+@keyframes pulse{0%{transform:scaleY(.4)}60%{transform:scaleY(1.2)}100%{transform:scaleY(1)}}
+section{padding:56px 0}
+h2{font-size:2rem;font-weight:800;margin-bottom:28px;letter-spacing:-.01em}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:32px}
+.feat div{border-top:3px solid var(--ink);padding-top:14px}
+.feat div:nth-child(2){border-color:var(--mint)}
+.feat div:nth-child(3){border-color:var(--coral)}
+.feat h3{font-size:1.15rem;margin-bottom:6px}
+.feat p{color:var(--grey)}
+.steps{list-style:none;padding:0;counter-reset:s;display:grid;gap:18px}
+.steps li{counter-increment:s;padding-left:52px;position:relative;font-size:1.1rem}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:36px;height:36px;border-radius:50%;background:var(--mint);display:grid;place-items:center;font-weight:800}
+.demo{background:#fff;border:2px dashed var(--line);border-radius:20px;padding:32px}
+.demo input[type=text],.demo input[type=file]{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin-bottom:14px;background:var(--paper)}
+#out{margin-top:20px;display:grid;gap:10px}
+.clip{display:flex;flex-direction:column;gap:8px;background:var(--paper);border-radius:10px;padding:12px 16px;border-left:6px solid var(--mint)}
+.clip:nth-child(2){border-color:var(--coral)}
+.clip:nth-child(3){border-color:var(--ink)}
+.clip video{max-width:240px;border-radius:8px}
+.note{color:var(--grey);font-size:.9rem;margin-top:10px}
+.price{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.plan{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px}
+.plan.pop{background:var(--ink);color:#fff}
+.plan .amt{font-size:2.2rem;font-weight:800;margin:6px 0 12px}
+.plan ul{padding-left:18px;color:inherit;opacity:.85}
+footer{padding:36px 0;color:var(--grey);border-top:1px solid var(--line);font-size:.9rem}
+@media(prefers-reduced-motion:reduce){.track span.hit{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav>
+  <a class="logo" href="#">Clip<b>Forge</b></a>
+  <a class="btn" href="#try">Try it</a>
+</nav>
+
+<header class="hero">
+  <h1>One long video in. A week of short clips out.</h1>
+  <p>ClipForge finds the strongest moments in your podcasts, streams and lectures, then cuts them to vertical clips with captions.</p>
+  <a class="btn alt" href="#try">Upload a video</a>
+</header>
+
+<div class="timeline" aria-label="A long video with highlighted moments">
+  <div class="track" id="track"></div>
+  <small>60-minute interview: 3 moments found</small>
+</div>
+
+<section>
+  <h2>What you get</h2>
+  <div class="feat">
+    <div><h3>Finds the best moments</h3><p>Reads the transcript and picks passages with a clear hook, story or answer.</p></div>
+    <div><h3>Captions that fit</h3><p>Word-by-word captions, sized for phone screens, in your brand colors.</p></div>
+    <div><h3>Ready for every feed</h3><p>Export 9:16, 1:1 or 16:9 and post to TikTok, Reels and Shorts.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li>Upload a video file.</li>
+    <li>ClipForge transcribes it and picks the strongest moments.</li>
+    <li>Review the clips, then download.</li>
+  </ol>
+</section>
+
+<section id="try">
+  <h2>Try it</h2>
+  <div class="demo">
+    <input type="file" id="file" accept="video/*" aria-label="Choose a video file">
+    <input type="text" id="link" placeholder="Or paste a video link (YouTube, etc.)" aria-label="Video link">
+    <button class="btn" id="go">Find clips</button>
+    <div id="out" aria-live="polite"></div>
+    <p class="note">Long videos can take a few minutes. Keep this tab open while it works.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Pricing</h2>
+  <div class="price">
+    <div class="plan"><h3>Free</h3><div class="amt">$0</div><ul><li>60 minutes a month</li><li>Watermark</li></ul></div>
+    <div class="plan pop"><h3>Creator</h3><div class="amt">$15</div><ul><li>600 minutes a month</li><li>No watermark</li><li>Brand colors</li></ul></div>
+    <div class="plan"><h3>Studio</h3><div class="amt">$49</div><ul><li>3000 minutes a month</li><li>Team seats</li></ul></div>
+  </div>
+</section>
+</div>
+
+<footer><div class="wrap">ClipForge is a sample project. Replace the name, copy and prices with your own.</div></footer>
+
+<script>
+var t=document.getElementById('track'),hits={6:'',17:'b',31:''};
+for(var i=0;i<40;i++){var s=document.createElement('span');
+  if(i in hits){s.className='hit '+hits[i]}
+  t.appendChild(s)}
+
+document.getElementById('go').onclick=async function(){
+  var f=document.getElementById('file').files[0],l=document.getElementById('link').value.trim(),o=document.getElementById('out'),b=this;
+  if(!f&&!l){o.textContent='Choose a video file or paste a link first.';return}
+  var fd=new FormData();
+  if(f){fd.append('file',f)}else{fd.append('url',l)}
+  fd.append('count','3');fd.append('length','45');
+  b.disabled=true;
+  o.textContent='Working... this can take a few minutes for long videos.';
+  try{
+    var r=await fetch('/process',{method:'POST',body:fd});
+    var d=await r.json();
+    o.innerHTML='';
+    if(d.error){o.textContent=d.error;return}
+    d.clips.forEach(function(c){
+      var div=document.createElement('div');
+      div.className='clip';
+      var p=document.createElement('span');
+      p.textContent=c.label+' ('+c.range+')';
+      var v=document.createElement('video');
+      v.src=c.url;v.controls=true;
+      var a=document.createElement('a');
+      a.href=c.url;a.download='';a.textContent='Download clip';
+      div.append(p,v,a);o.appendChild(div);
+    });
+  }catch(e){
+    o.textContent='Something went wrong. Check the cmd window for errors.';
+  }finally{b.disabled=false}
+};
+</script>
+</body>
+</html>
