@@ -23,7 +23,7 @@ model = WhisperModel("base", device="cpu", compute_type="int8")
 
 @app.get("/")
 def home():
-    return FileResponse(os.path.join(BASE, "index.html"))
+    return _page("index.html")
 
 
 def fmt(seconds):
